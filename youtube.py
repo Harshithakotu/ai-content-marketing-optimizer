@@ -1,18 +1,36 @@
+
 from googleapiclient.discovery import build
 import pandas as pd
+import os
+from dotenv import load_dotenv
+from pathlib import Path
 
+# ---------------------------
+# Explicitly load .env file (Option B for OneDrive)
+# ---------------------------
+env_path = Path(r"C:\Users\kotuh\OneDrive\Documents\Desktop\AI-Marketing-Data-collector\p.env")
+load_dotenv(dotenv_path=env_path)
 
-# CONFIGURE YOUR API KEY
+# ---------------------------
+# Get API key and Channel ID
+# ---------------------------
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
+CHANNEL_ID = os.getenv("CHANNEL_ID")
 
-YOUTUBE_API_KEY = "AIzaSyCYiTiBazmkfYPUj8yTIvuzEcmj-yAMLV8"
-CHANNEL_ID = "UCq-Fj5jknLsUf-MWSy4_brA"
+# ---------------------------
+# Debug checks
+# ---------------------------
+print("API Key Loaded Successfully")
+print("Channel ID Loaded Successfully")
 
+# ---------------------------
+# Initialize YouTube API client
+# ---------------------------
 youtube = build("youtube", "v3", developerKey=YOUTUBE_API_KEY)
 
-
-
-# GET VIDEO IDS
-
+# ---------------------------
+# Get video IDs from the channel
+# ---------------------------
 def get_video_ids(channel_id):
     request = youtube.search().list(
         part="id",
@@ -29,10 +47,9 @@ def get_video_ids(channel_id):
     ]
     return video_ids
 
-
-
-# GET VIDEO DETAILS
-
+# ---------------------------
+# Get video details
+# ---------------------------
 def get_video_details(video_ids):
     data_list = []
 
@@ -57,13 +74,17 @@ def get_video_details(video_ids):
 
     return data_list
 
-
-# Fetch data
+# ---------------------------
+# Run the script
+# ---------------------------
 video_ids = get_video_ids(CHANNEL_ID)
-video_data = get_video_details(video_ids)
+if not video_ids:
+    print("No videos found for this channel.")
+else:
+    video_data = get_video_details(video_ids)
 
-# Save to Excel
-df = pd.DataFrame(video_data)
-df.to_excel("youtube_data.xlsx", index=False)
+    # Save to Excel
+    df = pd.DataFrame(video_data)
+    df.to_excel("youtube_data.xlsx", index=False)
 
-print("YouTube data saved to youtube_data.xlsx")
+    print("YouTube data saved to youtube_data.xlsx")
