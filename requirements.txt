@@ -1,0 +1,12 @@
+python-dotenv
+pandas
+groq
+fastapi
+uvicorn
+openpyxl
+streamlit
+requests
+numpy
+scikit-learn
+joblib
+
