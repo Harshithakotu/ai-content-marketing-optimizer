@@ -13,7 +13,8 @@ st.title("🚀 AI Marketing Intelligence Dashboard")
 # Backend endpoints
 # =============================
 # Backend URLs
-API_BASE = "http://127.0.0.1:8000"
+API_BASE = "https://ai-content-marketing-optimizer.onrender.com"
+
 ENDPOINTS = {
     "Dashboard": f"{API_BASE}/dashboard/stats",
     "Insights": f"{API_BASE}/insights/",
